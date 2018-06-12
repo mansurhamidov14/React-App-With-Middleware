@@ -1,4 +1,5 @@
 <?
+header('Access-Control-Allow-Origin: *');
 /* $host = '127.0.0.1';
 $db   = 'socnetwork';
 $user = 'root';
