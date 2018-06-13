@@ -1,5 +1,5 @@
 import axios from 'axios';
-const remoteUrl = 'http://recursion.loc';
+const remoteUrl = 'http://studytogether.scienceontheweb.net/pdo.php';
 
 const fetchUsersSuccess = payload => ({
   type: 'FETCH_USERS_SUCCESS',
@@ -12,7 +12,7 @@ const fetchUsersStart = () => ({
 
 const fetchUsers = () => {
   return dispatch => {
-    dispatch(fetchUsersStart);
+    dispatch(fetchUsersStart());
     axios.get(remoteUrl)
       .then (users => {
         dispatch(fetchUsersSuccess(users.data))
@@ -20,8 +20,25 @@ const fetchUsers = () => {
   }
 }
 
+const addUser = payload => {
+  var params = new URLSearchParams();
+  params.append('add_user', true);
+  params.append('name', payload.name);
+  params.append('lastname', payload.lastname);
+  axios.post(remoteUrl, params);
+  return dispatch => {
+    dispatch(fetchUsersStart());
+    axios.get(remoteUrl)
+      .then (users => {
+        dispatch(fetchUsersSuccess(users.data))
+      })
+  }
+
+}
+
 export default {
   fetchUsersSuccess,
   fetchUsersStart,
-  fetchUsers
+  fetchUsers,
+  addUser
 }
